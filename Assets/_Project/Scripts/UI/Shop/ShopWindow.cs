@@ -51,7 +51,7 @@ namespace Project.UI.Shop
             itemSlot.Initialize(
                 item,
                 () => OnItemSelected(item, onBuyCallback),
-                _uiConfigs.GameItemViewColor);
+                _uiConfigs.GameItemViewBackground);
 
             _itemSlots.Add(itemSlot);
         }
@@ -63,7 +63,7 @@ namespace Project.UI.Shop
             itemSlot.Initialize(
                 item,
                 () => OnItemSelected(item, onBuyCallback),
-                _uiConfigs.InApptemViewColor);
+                _uiConfigs.InApptemViewBackground);
 
             _itemSlots.Add(itemSlot);
         }

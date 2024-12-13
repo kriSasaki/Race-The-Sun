@@ -8,6 +8,7 @@ using Project.Systems.Cameras;
 using Project.UI;
 using Project.Spawner;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YG;
 using Zenject;
 
@@ -54,14 +55,18 @@ namespace Project.Infrastructure
 
             await _cameraSystem.ShowOpeningAsync(destroyCancellationToken);
 
-            _player.EnableMove();
+            if (SceneManager.GetActiveScene().name != _gameConfig.FirstLevelScene)
+            {
+                _player.EnableMove();
+            }
+
             _gameReadyService.Call();
             YandexGame.GameplayStart();
 
             await _uiCanvas.EnableAsync(_unfadeCanvasDuration, destroyCancellationToken);
 
             await UniTask.WaitUntil(() => Input.anyKey);
-            
+
             _audioService.PlayMusic(_gameConfig.MainMusic);
         }
 

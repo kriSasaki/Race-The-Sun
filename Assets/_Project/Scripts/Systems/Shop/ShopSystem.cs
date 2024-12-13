@@ -7,6 +7,7 @@ using Project.Interfaces.SDK;
 using Project.SDK.InApp;
 using Project.Systems.Shop.Items;
 using Project.UI.Shop;
+using UnityEngine;
 using YG;
 using YG.Utils.Pay;
 using Zenject;
@@ -20,7 +21,7 @@ namespace Project.Systems.Shop
         private readonly ShopItemFactory _shopItemfactory;
         private readonly ShopItemsConfigs _shopItemsConfigs;
         private readonly ShopWindow _shopWindow;
-        private readonly ShopButton _shopButton;
+        private readonly List<ShopButton> _shopButtons;
 
         private Dictionary<string, InAppItem> _inAppCatalogue = new();
 
@@ -32,21 +33,25 @@ namespace Project.Systems.Shop
             ShopItemFactory shopItemfactory,
             ShopItemsConfigs shopItemsConfigs,
             ShopWindow shopWindow,
-            ShopButton shopButtom)
+            List<ShopButton> shopButtons)
         {
             _playerStorage = playerStorage;
             _billingService = billingService;
             _shopItemfactory = shopItemfactory;
             _shopItemsConfigs = shopItemsConfigs;
             _shopWindow = shopWindow;
-            _shopButton = shopButtom;
+            _shopButtons = shopButtons;
 
             YandexGame.PurchaseSuccessEvent += OnBuyInApp;
         }
 
         public void Initialize()
         {
-            _shopButton.Bind(OpenShop);
+            foreach (var button in _shopButtons)
+            {
+                button.Bind(OpenShop);
+            }
+            
             _billingService.LoadProductCatalog(LoadInAppItems);
         }
 
@@ -82,11 +87,14 @@ namespace Project.Systems.Shop
             foreach (var config in _shopItemsConfigs.InAppItemsConfigs)
             {
                 Purchase itemData = products.FirstOrDefault(p => p.id == config.ID);
+                
+                Debug.Log(itemData);
 
                 if (itemData == null)
                     continue;
 
                 InAppItem item = _shopItemfactory.Create(config, itemData);
+                
                 _inAppCatalogue.Add(item.ID, item);
             }
 

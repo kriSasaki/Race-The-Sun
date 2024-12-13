@@ -10,6 +10,8 @@ namespace Project.General.View
         private const float GizmoLineLenght = 20f;
 
         [SerializeField] private float _verticalOffset = 0.5f;
+
+        [SerializeField] private ParticleSystem _crashVFX;
         // [SerializeField] private ShipSwinger _shipSwinger;
         // [SerializeField] private SinkTween _sinkTween;
 

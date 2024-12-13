@@ -2,6 +2,6 @@
 {
     public interface IAdvertismentData : IAdvertismentStatus, ISaveable
     {
-        void RemoveAd();
+        new bool IsAdHided { get; set; }
     }
 }

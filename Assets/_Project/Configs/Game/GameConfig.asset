@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a7ce39995a9c24e900f885ed20e653, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  _loadingScene: LoadingScene
+  _firstLevelScene: MainMenu
+  <EarnResourceSound>k__BackingField:
+    ID: 1073741845
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}
+  <QuestDoneSound>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+  <BossZoneSound>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+  <MainMusic>k__BackingField:
+    ID: 268435458
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}
+  <BattleMusic>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+  <Ambience>k__BackingField:
+    ID: 805306370
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}

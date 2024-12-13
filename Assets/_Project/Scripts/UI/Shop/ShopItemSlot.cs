@@ -25,7 +25,7 @@ namespace Project.UI.Shop
             _selectButton.onClick.RemoveListener(OnItemSelected);
         }
 
-        public void Initialize(ShopItem item, Action onSelectCallback, ItemViewColorConfig config = null)
+        public void Initialize(ShopItem item, Action onSelectCallback, ItemViewBackgroundConfig config = null)
         {
             _item = item;
             _onSelectCallback = onSelectCallback;

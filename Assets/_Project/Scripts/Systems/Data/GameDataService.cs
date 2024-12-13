@@ -1,8 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DTT.Utils.Extensions;
 using Project.Configs.Game;
 using Project.Interfaces.Data;
-using Project.Systems.Stats;
+using UnityEngine;
 using YG;
 
 namespace Project.Systems.Data
@@ -14,97 +15,66 @@ namespace Project.Systems.Data
         ILevelDataService,
         IScoreService
     {
-        private const int SaveDelay = 1000;
         private const string SaveKey = nameof(SaveKey);
-        private bool _isSaving = false;
+
+        private readonly GameData _gameData;
 
         public GameDataService(GameConfig config)
         {
-            if (GameData == null)
-            {
-                YandexGame.savesData.GameData = new GameData(config.FirstLevelScene);
-                Save();
-            }
+            GameData data = YandexGame.savesData.GameData;
+            
+            _gameData = data ?? new GameData(config.FirstLevelScene);
 
-            if (GameData.CurrentScene.IsNullOrEmpty())
+            if (_gameData.CurrentScene.IsNullOrEmpty())
             {
-                UpdateCurrentLevel(config.FirstLevelScene);
-                Save();
+                _gameData.CurrentScene = config.FirstLevelScene;
             }
         }
 
-        public string CurrentLevel => GameData.CurrentScene;
+        public List<GameResourceData> Storage => _gameData.StorageData;
 
-        public bool IsAdHided { get => GameData.IsAddHided; }
+        public List<PlayerStatData> StatsLevels => _gameData.PlayerStatsLevels;
+        
+        public string CurrentLevel => _gameData.CurrentScene;
 
-        private GameData GameData => YandexGame.savesData.GameData;
+        public bool IsAdHided { get => _gameData.IsAddHided; set => _gameData.IsAddHided = value; }
 
-        public GameResourceData GetResourceData(string id)
+        public void UpdateCurrentLevel(string levelName)
         {
-            return GameData.GetResourceData(id);
-        }
-
-        public PlayerStatData GetPlayerStatData(StatType statType)
-        {
-            return GameData.GetPlayerStatData(statType);
+            _gameData.CurrentScene = levelName;
+            Save();
         }
 
         public LevelData GetLevelData(string levelName)
         {
-            return GameData.GetLevelData(levelName);
-        }
+            LevelData leveldata = _gameData.Levels.FirstOrDefault(l => l.LevelName == levelName);
 
-        public int GetScore()
-        {
-            return GameData.GetScore();
-        }
+            if (leveldata == null)
+            {
+                leveldata = new LevelData(levelName);
 
-        public void SetScore(int score)
-        {
-            GameData.SetScore(score);
-            Save();
-        }
+                _gameData.Levels.Add(leveldata);
+            }
 
-        public void UpdateCurrentLevel(string levelName)
-        {
-            GameData.UpdateCurrentLevel(levelName);
-            Save();
-        }
-
-        public void UpdateResourceData(string id, int value)
-        {
-            GameData.UpdateResourceData(id, value);
-            Save();
-        }
-
-        public void UpdateStatData(StatType type, int level)
-        {
-            GameData.UpdateStatData(type, level);
-            Save();
-        }
-
-        public void RemoveAd()
-        {
-            GameData.RemoveAd();
-            Save();
+            return leveldata;
         }
 
         public void Save()
         {
-            if (_isSaving)
-                return;
-
-            SaveAsync().Forget();
-        }
-
-        private async UniTaskVoid SaveAsync()
-        {
-            _isSaving = true;
-
-            await UniTask.Delay(SaveDelay, cancellationToken: YandexGame.Instance.destroyCancellationToken);
+            YandexGame.savesData.GameData = _gameData;
 
             YandexGame.SaveProgress();
-            _isSaving = false;
+        }
+
+        public int GetScore()
+        {
+            return _gameData.Score;
+        }
+
+        public void SetScore(int score)
+        {
+            _gameData.Score = score;
+            Save();
         }
     }
 }

@@ -13,15 +13,14 @@ namespace Project.UI.Shop
         [SerializeField] private Image _priceImage;
         [SerializeField] private TMP_Text _priceAmount;
 
-        [SerializeField] private Image _background;
+        [SerializeField] private Sprite _background;
         [SerializeField] private Image _cover;
 
-        public void Set(ShopItem item, ItemViewColorConfig config = null)
+        public void Set(ShopItem item, ItemViewBackgroundConfig config = null)
         {
             if (config != null)
             {
-                _background.color = config.BackgroundColor;
-                _cover.color = config.CoverColor;
+                _background = config.Background;
             }
 
             _itemImage.sprite = item.Sprite;

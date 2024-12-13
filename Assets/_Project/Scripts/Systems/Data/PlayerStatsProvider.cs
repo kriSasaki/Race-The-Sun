@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Project.Configs.Stats;
 using Project.Interfaces.Data;
+using Project.Systems.Data;
 using Project.Systems.Stats;
 
 namespace Project.Systems.Data
@@ -23,8 +24,12 @@ namespace Project.Systems.Data
 
         public Dictionary<StatType, PlayerStat> LoadStats()
         {
-            _stats = new();
+            if (_stats != null)
+            {
+                return _stats;
+            }
 
+            _stats = new();
             Dictionary<StatType, int> statsLevels = GetStatsLevels();
 
             foreach (StatType statType in statsLevels.Keys)
@@ -39,8 +44,19 @@ namespace Project.Systems.Data
         {
             foreach (StatType statType in _stats.Keys)
             {
-                _statsData.UpdateStatData(statType, _stats[statType].Level);
+                PlayerStatData data = _statsData.StatsLevels.FirstOrDefault(s => s.StatType == statType);
+
+                if (data != null)
+                {
+                    data.Level = _stats[statType].Level;
+                }
+                else
+                {
+                    _statsData.StatsLevels.Add(new PlayerStatData() { StatType = statType, Level = _stats[statType].Level });
+                }
             }
+
+            _statsData.Save();
         }
 
         private Dictionary<StatType, int> GetStatsLevels()
@@ -49,9 +65,11 @@ namespace Project.Systems.Data
 
             foreach (StatType statType in Enum.GetValues(typeof(StatType)).Cast<StatType>())
             {
-                PlayerStatData playerStatData = _statsData.GetPlayerStatData(statType);
-
-                statsLevels.Add(playerStatData.StatType, playerStatData.Level);
+                statsLevels.Add(statType, 1);
+            }
+            foreach (PlayerStatData statData in _statsData.StatsLevels)
+            {
+                statsLevels[statData.StatType] = statData.Level;
             }
 
             return statsLevels;

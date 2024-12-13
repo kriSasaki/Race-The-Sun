@@ -1,4 +1,5 @@
-﻿using Ami.BroAudio;
+﻿using System;
+using Ami.BroAudio;
 using Project.Configs.UI;
 using Project.Interfaces.Audio;
 using Project.Utils.Tweens;
@@ -19,6 +20,8 @@ namespace Project.UI
         private SoundID _closeWindowSound;
 
         private Canvas _windowCanvas;
+
+        public event Action OnHided; 
 
         private bool IsClosed => _windowCanvas.enabled == false;
 
@@ -42,6 +45,7 @@ namespace Project.UI
                 return;
 
             _audioService.PlaySound(_closeWindowSound);
+            OnHided?.Invoke();
             Close();
         }
 

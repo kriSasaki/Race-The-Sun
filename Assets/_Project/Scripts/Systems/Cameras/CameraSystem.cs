@@ -13,11 +13,13 @@ namespace Project.Systems.Cameras
 {
     public class CameraSystem : MonoBehaviour
     {
+        [SerializeField] private bool _isFreeLook;
         [SerializeField] private bool _isOpeningShows = true;
         [SerializeField] private float _openingViewDuration = 2f;
         [SerializeField] private CinemachineVirtualCamera _playerCamera;
         [SerializeField] private CinemachineVirtualCamera _targetCamera;
         [SerializeField] private CinemachineVirtualCamera _openingCamera;
+        [SerializeField] private CinemachineFreeLook _freeLookCamera;
 
         private List<CinemachineVirtualCamera> _cameras;
         private CinemachineBrain _brain;
@@ -65,12 +67,12 @@ namespace Project.Systems.Cameras
         public async UniTaskVoid ShowTargetAsync(Transform target, float duration)
         {
             _uiCanvas.Disable();
-            _player.DisableMove();
+            // _player.DisableMove();
             GoToTarget(target);
             await UniTask.Delay(TimeSpan.FromSeconds(duration), cancellationToken: destroyCancellationToken);
             GoToPlayer();
             await UniTask.WaitUntil(() => _brain.IsBlending == false, cancellationToken: destroyCancellationToken);
-            _player.EnableMove();
+            // _player.EnableMove();
             _uiCanvas.Enable();
         }
 
@@ -93,10 +95,17 @@ namespace Project.Systems.Cameras
 
             SetPlayerCamera();
 
-            if (_isOpeningShows)
-                EnableCamera(_openingCamera);
-            else
-                GoToPlayer();
+            if (_isFreeLook != true)
+            {
+                if (_isOpeningShows)
+                {
+                    EnableCamera(_openingCamera);
+                }
+                else
+                {
+                    GoToPlayer();
+                }
+            }
         }
 
         private void SetPlayerCamera()

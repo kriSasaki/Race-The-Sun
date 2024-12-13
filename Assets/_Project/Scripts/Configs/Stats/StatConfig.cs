@@ -14,17 +14,17 @@ namespace Project.Configs.Stats
     {
         [SerializeField] private UpgradeCost _primaryCost;
 
-        [SerializeField, LeanTranslationName] private string _nameToken;
-        [SerializeField, LeanTranslationName] private string _descriptionToken;
+        [SerializeField] private string _name;
+        [SerializeField] private string _description;
 
         [field: SerializeField] public StatType StatType { get; private set; }
-        [field: SerializeField, ShowAssetPreview] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public bool IsUpgradeable { get; private set; } 
         [field: SerializeField, Min(0)] public int MinValue { get; private set; }
         [field: SerializeField, Min(0)] public int MaxValue { get; private set; }
         [field: SerializeField, Min(0)] public int MaxLevel { get; private set; }
 
-        public string Name => LeanLocalization.GetTranslationText(_nameToken);
-        public string Description => LeanLocalization.GetTranslationText(_descriptionToken);
+        public string Name => _name;
+        public string Description => _description;
         public int MinLevel => 1;
 
         public int GetValue(int level)

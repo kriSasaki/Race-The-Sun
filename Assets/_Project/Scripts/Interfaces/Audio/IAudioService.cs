@@ -19,5 +19,7 @@ namespace Project.Interfaces.Audio
         void UnpauseAudio();
 
         void StopAudio();
+        void SetMusicLevel(float musicLevel);
+        public void SetEffectsVolume(float effectsVolume);
     }
 }

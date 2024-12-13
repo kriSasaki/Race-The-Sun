@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Project.Configs.GameResources;
+﻿using Project.Configs.GameResources;
 using Project.Interfaces.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Project.Systems.Data
 {
     public class ResourceStorageProvider : IResourceStorageProvider
     {
-        private const int InitialResourceAmount = 0;
         private readonly IResourceStorageData _storageData;
         private readonly GameResourcesSheet _resourcesSheet;
         private Dictionary<GameResource, int> _storage;
@@ -21,11 +20,15 @@ namespace Project.Systems.Data
 
         public Dictionary<GameResource, int> LoadStorage()
         {
+            if (_storage != null)
+            {
+                return _storage;
+            }
             _storage = new Dictionary<GameResource, int>();
 
             foreach (GameResource resource in _resourcesSheet.GameResources)
             {
-                GameResourceData data = _storageData.GetResourceData(resource.ID);
+                GameResourceData data = _storageData.Storage.FirstOrDefault(r => r.ID == resource.ID);
 
                 if (data != null)
                 {
@@ -33,7 +36,7 @@ namespace Project.Systems.Data
                 }
                 else
                 {
-                    _storage.Add(resource, InitialResourceAmount);
+                    _storage.Add(resource, 0);
                 }
             }
 
@@ -42,10 +45,21 @@ namespace Project.Systems.Data
 
         public void UpdateStorage()
         {
-            foreach (GameResource resource in _storage.Keys)
+            foreach (GameResource resource in _resourcesSheet.GameResources)
             {
-                _storageData.UpdateResourceData(resource.ID, _storage[resource]);
+                GameResourceData data = _storageData.Storage.FirstOrDefault(r => r.ID == resource.ID);
+
+                if (data != null)
+                {
+                    data.Value = _storage[resource];
+                }
+                else
+                {
+                    _storageData.Storage.Add(new GameResourceData() { ID = resource.ID, Value = _storage[resource] });
+                }
             }
+
+            _storageData.Save();
         }
     }
 }

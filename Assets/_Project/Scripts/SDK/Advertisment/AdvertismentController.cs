@@ -12,7 +12,6 @@ namespace Project.SDK.Advertisment
         {
             _addData = addData;
             _advertismentService = advertismentService;
-
             HandleAd();
         }
 
@@ -26,7 +25,9 @@ namespace Project.SDK.Advertisment
 
         public void RemoveAd()
         {
-            _addData.RemoveAd();
+            _addData.IsAdHided = true;
+            _addData.Save();
+
             HandleAd();
         }
 

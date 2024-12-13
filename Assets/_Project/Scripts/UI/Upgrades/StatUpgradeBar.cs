@@ -15,16 +15,14 @@ namespace Project.UI.Upgrades
 {
     public class StatUpgradeBar : MonoBehaviour
     {
+        private const int Zero = 0;
         private const int One = 1;
         private const string LevelToken = "LevelToken";
-
-        [SerializeField] private Image _statIcon;
-
+        
         [SerializeField] private TMP_Text _statName;
         [SerializeField] private TMP_Text _statDescription;
-        [SerializeField] private TMP_Text _levelProgress;
-        [SerializeField] private TMP_Text _currentStatValue;
-        [SerializeField] private TMP_Text _nextStatValue;
+        [SerializeField] private GameObject _levelProgressTemlplate;
+        [SerializeField] private Image _levelProgressPrefab;
 
         [SerializeField] private Button _upgradeButton;
 
@@ -32,6 +30,7 @@ namespace Project.UI.Upgrades
         [SerializeField] private RectTransform _upgradePriceHolder;
 
         private readonly List<UpgradeCostView> _upgradePriceView = new();
+        private readonly List<Image> _levelProgressImages = new();
 
         private StatConfig _config;
         private IUpgradableStats _stats;
@@ -59,18 +58,16 @@ namespace Project.UI.Upgrades
             _stats = stats;
             _playerStorage = playerStorage;
 
-            _statIcon.sprite = _config.Sprite;
             _statType = _config.StatType;
+
+            SpawnLevelProgress(CurrentStatLevel);
         }
 
         public void Fill()
         {
             _statName.text = _config.Name;
             _statDescription.text = _config.Description;
-
-            int nextStatLevel = CurrentStatLevel + One;
-
-            SetStatValues(CurrentStatLevel, nextStatLevel);
+            
             SetLevelProgress(CurrentStatLevel);
             CheckUpgradePrice();
         }
@@ -83,18 +80,38 @@ namespace Project.UI.Upgrades
             UpdatePriceView(upgradePrice, currentLevel);
         }
 
-        private void SetLevelProgress(int currentLevel)
+        private void SpawnLevelProgress(int currentLevel)
         {
-            _levelProgress.text = $"{LevelLabel}: {currentLevel} / {_config.MaxLevel}";
+            for (int i = 0; i < _config.MaxLevel; i++)
+            {
+                var progress = Instantiate(_levelProgressPrefab, _levelProgressTemlplate.transform);
+
+                if (i >= currentLevel)
+                {
+                    progress.color = new Color(Zero, Zero, Zero, Zero);
+                }
+                
+                _levelProgressImages.Add(progress);
+            }
         }
 
-        private void SetStatValues(int currentLevel, int nextLevel)
+        private void SetLevelProgress(int currentLevel)
         {
-            int currentValue = _config.GetValue(currentLevel);
-            int nextValue = _config.GetValue(nextLevel);
+            for (int i = 0; i < _levelProgressImages.Count; i++)
+            {
+                Color color = _levelProgressImages[i].color;
+                
+                if (i < currentLevel)
+                {
+                    color = Color.white;
+                }
+                else
+                {
+                    color = Color.clear;
+                }
 
-            _currentStatValue.text = currentValue.ToNumericalString();
-            _nextStatValue.text = nextValue.ToNumericalString();
+                _levelProgressImages[i].color = color;
+            }
         }
 
         private void UpdatePriceView(List<GameResourceAmount> upgradePrice, int currentLevel)
@@ -102,7 +119,6 @@ namespace Project.UI.Upgrades
             if (_config.IsMaxLevel(currentLevel))
             {
                 _upgradeButton.gameObject.SetActive(false);
-                _nextStatValue.gameObject.SetActive(false);
                 return;
             }
 

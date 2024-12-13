@@ -30,7 +30,6 @@ namespace Project.UI
         public void Show(Action onClickCallback)
         {
             gameObject.SetActive(true);
-            _audioService.PlaySound(_config.ShowButtonSound);
             _scaleTween.RunFrom();
 
             Bind(onClickCallback);
@@ -39,6 +38,7 @@ namespace Project.UI
         public void Hide()
         {
             _button.onClick.RemoveAllListeners();
+            Debug.Log("RemoveAllListeners");
             gameObject.SetActive(false);
         }
 

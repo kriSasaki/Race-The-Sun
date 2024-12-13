@@ -62,11 +62,14 @@ namespace Project.UI.Upgrades
         {
             foreach (StatConfig statConfig in _statsSheet.Stats)
             {
-                StatUpgradeBar upgradeBar = Instantiate(_barPrefab, _barHolder);
-                upgradeBar.Initialize(statConfig, _stats, _playerStorage);
-                upgradeBar.StatUpgraded += OnStatUpgraded;
+                if (statConfig.IsUpgradeable)
+                {
+                    StatUpgradeBar upgradeBar = Instantiate(_barPrefab, _barHolder);
+                    upgradeBar.Initialize(statConfig, _stats, _playerStorage);
+                    upgradeBar.StatUpgraded += OnStatUpgraded;
 
-                _bars.Add(upgradeBar);
+                    _bars.Add(upgradeBar);
+                }
             }
         }
 

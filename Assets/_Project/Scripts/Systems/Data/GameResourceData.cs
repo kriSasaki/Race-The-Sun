@@ -1,25 +1,9 @@
-﻿using UnityEngine;
-
-namespace Project.Systems.Data
+﻿namespace Project.Systems.Data
 {
     [System.Serializable]
     public class GameResourceData
     {
-        [SerializeField] private string _id;
-        [SerializeField] private int _value;
-
-        public GameResourceData(string id, int value)
-        {
-            _id = id;
-            _value = value;
-        }
-
-        public string ID => _id;
-        public int Value => _value;
-
-        public void ChangeResourceAmount(int value)
-        {
-            _value = value;
-        }
+        public string ID;
+        public int Value;
     }
 }

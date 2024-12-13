@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e62ec30c5a2b964094c949bdf0a90e7, type: 3}
+  m_Name: UiConfigs
+  m_EditorClassIdentifier: 
+  <GameItemViewBackground>k__BackingField: {fileID: 0}
+  <InApptemViewBackground>k__BackingField: {fileID: 11400000, guid: 37bf31a48de92884791bb806d610f584, type: 2}
+  <OpenWindowSound>k__BackingField:
+    ID: 536870914
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}
+  <CloseWindowSound>k__BackingField:
+    ID: 536870913
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}
+  <ShowButtonSound>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+  <RewardOfferSound>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+  <UpgradeSound>k__BackingField:
+    ID: 1073741844
+    _sourceAsset: {fileID: 11400000, guid: d8461718e4685f542acc5958b8995085, type: 2}
+  <PlayerLooseSound>k__BackingField:
+    ID: 0
+    _sourceAsset: {fileID: 0}

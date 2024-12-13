@@ -11,11 +11,7 @@ namespace Project.Players.View
 {
     public class PlayerView : ShipView
     {
-        [SerializeField] private PunchShipTween _punchTween;
-        [SerializeField] private ParticleSystem _waterTrail;
         [SerializeField] private SoundID _hitSound;
-        [SerializeField] private MeshRenderer _shipRenderer;
-        [SerializeField] private MeshRenderer _sailsRenderer;
 
         private IAudioService _audioService;
         private VfxSpawner _vfxSpawner;
@@ -50,25 +46,10 @@ namespace Project.Players.View
         [Inject]
         private void Construct(
             IAudioService audioService,
-            VfxSpawner vfxSpawner,
-            LevelConfig levelConfig)
+            VfxSpawner vfxSpawner)
         {
             _audioService = audioService;
             _vfxSpawner = vfxSpawner;
-            _punchTween.Initialize(transform);
-
-            SetRenderers(levelConfig);
-        }
-
-        private void SetRenderers(LevelConfig levelConfig)
-        {
-            Material levelMaterial = levelConfig.LevelMaterial;
-
-            if (_shipRenderer.material == levelMaterial)
-                return;
-
-            _shipRenderer.material = levelMaterial;
-            _sailsRenderer.material = levelMaterial;
         }
     }
 }

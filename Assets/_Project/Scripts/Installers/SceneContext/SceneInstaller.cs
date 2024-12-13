@@ -5,13 +5,16 @@ using Project.Players.View;
 using Project.Spawner;
 using Project.Systems.Cameras;
 using Project.Systems.Leaderboard;
+using Project.Systems.Settings;
 using Project.Systems.Shop;
 using Project.Systems.Storage;
 using Project.Systems.Stats;
 using Project.Systems.Upgrades;
 using Project.UI;
 using Project.UI.Leaderboard;
+using Project.UI.Panels;
 using Project.UI.Reward;
+using Project.UI.Settings;
 using Project.UI.Shop;
 using Project.UI.Upgrades;
 using UnityEngine;
@@ -50,21 +53,28 @@ namespace Project.Installers.SceneContext
         {
             Container.Bind<CinemachineBrain>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<ShopSystem>().FromNew().AsSingle().NonLazy();
-            Container.Bind<UpgradeSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<LeaderboardSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SettingsSystem>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<UpgradeSystem>().FromNew().AsSingle().NonLazy();
+            // Container.BindInterfacesAndSelfTo<LeaderboardSystem>().FromNew().AsSingle().NonLazy();
             Container.Bind<CameraSystem>().FromComponentInHierarchy().AsSingle();
         }
 
         private void BindUI()
         {
             Container.Bind<ShopWindow>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<ShopButton>().FromComponentInHierarchy().AsSingle();
-
+            Container.Bind<ShopButton>().FromComponentsInHierarchy().AsSingle();
+            
+            Container.Bind<SettingsWindow>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<SettingsButton>().FromComponentInHierarchy().AsSingle();
+            
             Container.Bind<UpgradeWindow>().FromComponentInHierarchy().AsSingle();
             Container.Bind<UpgradeButton>().FromComponentInHierarchy().AsSingle();
-
-            Container.Bind<LeaderboardWindow>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<LeaderboardButton>().FromComponentInHierarchy().AsSingle();
+            
+            Container.Bind<InfoPanel>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<ButtonsPanel>().FromComponentInHierarchy().AsSingle();
+            
+            // Container.Bind<LeaderboardWindow>().FromComponentInHierarchy().AsSingle();
+            // Container.Bind<LeaderboardButton>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<RewardView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<NextLevelWindow>().FromComponentInHierarchy().AsSingle();

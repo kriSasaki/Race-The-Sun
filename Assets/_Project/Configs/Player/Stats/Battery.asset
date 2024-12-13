@@ -15,11 +15,11 @@ MonoBehaviour:
   _primaryCost:
     _currency: {fileID: 11400000, guid: 568cf8c6e8487454ebccd24715ad268b, type: 2}
     <MinCost>k__BackingField: 1000
-    <MaxCost>k__BackingField: 0
-  _nameToken: 
-  _descriptionToken: 
+    <MaxCost>k__BackingField: 2000
+  _name: "\u0411\u0430\u0442\u0430\u0440\u0435\u044F"
+  _description: 
   <StatType>k__BackingField: 0
-  <Sprite>k__BackingField: {fileID: 0}
+  <IsUpgradeable>k__BackingField: 1
   <MinValue>k__BackingField: 5
   <MaxValue>k__BackingField: 50
-  <MaxLevel>k__BackingField: 5
+  <MaxLevel>k__BackingField: 8

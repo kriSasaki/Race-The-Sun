@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78eb491da934804b81e718c74b34d51, type: 3}
   m_Name: Tri
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 21300000, guid: b69b7af84b1770f42967c92725f5325c, type: 3}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4ef7b3c761959054fab5081b2badf916, type: 3}

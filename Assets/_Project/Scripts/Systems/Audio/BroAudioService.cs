@@ -50,5 +50,15 @@ namespace Project.Systems.Audio
         {
             BroAudio.Stop(BroAudioType.All);
         }
+
+        public void SetMusicLevel(float musicLevel)
+        {
+            BroAudio.SetVolume(musicLevel);
+        }
+
+        public void SetEffectsVolume(float effectsVolume)
+        {
+            AudioListener.volume = effectsVolume;
+        }
     }
 }
