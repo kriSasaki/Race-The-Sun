@@ -20,8 +20,9 @@ namespace Project.Systems.Cameras
         [SerializeField] private CinemachineVirtualCamera _targetCamera;
         [SerializeField] private CinemachineVirtualCamera _openingCamera;
         [SerializeField] private CinemachineFreeLook _freeLookCamera;
+        [SerializeField] private CinemachineFreeLook _upgradeCamera;
 
-        private List<CinemachineVirtualCamera> _cameras;
+        private List<CinemachineVirtualCameraBase> _cameras;
         private CinemachineBrain _brain;
         private Player _player;
         private CinemachineTransposer _targetCameraTransposer;
@@ -64,15 +65,23 @@ namespace Project.Systems.Cameras
             EnableCamera(_playerCamera);
         }
 
+        public void GoToUpgrades()
+        {
+            EnableCamera(_upgradeCamera);
+        }
+
+        public void GoToFreeLook()
+        {
+            EnableCamera(_freeLookCamera);
+        }
+
         public async UniTaskVoid ShowTargetAsync(Transform target, float duration)
         {
             _uiCanvas.Disable();
-            // _player.DisableMove();
             GoToTarget(target);
             await UniTask.Delay(TimeSpan.FromSeconds(duration), cancellationToken: destroyCancellationToken);
             GoToPlayer();
             await UniTask.WaitUntil(() => _brain.IsBlending == false, cancellationToken: destroyCancellationToken);
-            // _player.EnableMove();
             _uiCanvas.Enable();
         }
 
@@ -83,11 +92,13 @@ namespace Project.Systems.Cameras
             _brain = brain;
             _uiCanvas = uiCanvas;
 
-            _cameras = new List<CinemachineVirtualCamera>()
+            _cameras = new List<CinemachineVirtualCameraBase>()
             {
                 _playerCamera,
                 _targetCamera,
                 _openingCamera,
+                _freeLookCamera,
+                _upgradeCamera
             };
 
             _targetCameraTransposer = _targetCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -120,14 +131,11 @@ namespace Project.Systems.Cameras
             _targetCamera.LookAt = target;
         }
 
-        private void EnableCamera(CinemachineVirtualCamera camera)
+        private void EnableCamera(CinemachineVirtualCameraBase camera)
         {
-            foreach (CinemachineVirtualCamera virtualCamera in _cameras)
+            foreach (CinemachineVirtualCameraBase virtualCamera in _cameras)
             {
-                if (virtualCamera == camera)
-                    virtualCamera.gameObject.SetActive(true);
-                else
-                    virtualCamera.gameObject.SetActive(false);
+                virtualCamera.gameObject.SetActive(virtualCamera == camera);
             }
         }
     }

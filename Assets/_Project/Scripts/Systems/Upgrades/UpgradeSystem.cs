@@ -17,8 +17,7 @@ namespace Project.Systems.Upgrades
         private readonly SettingsWindow _settingsWindow;
         private readonly ButtonsPanel _buttonsPanel;
         private readonly InfoPanel _infoPanel;
-        
-        private CameraSystem _cameraSystem;
+        private readonly CameraSystem _cameraSystem;
 
         public UpgradeSystem(UpgradeButton upgradeButton, 
             UpgradeWindow upgradeWindow, 
@@ -51,12 +50,13 @@ namespace Project.Systems.Upgrades
         private void OpenUpgrades()
         {
             _upgradeWindow.Open();
-            _cameraSystem.GoToPlayer();
+            _cameraSystem.GoToUpgrades();
             _settingsButton.Hide();
         }
 
         private void ShowUI()
         {
+            _cameraSystem.GoToFreeLook();
             _settingsButton.Show(_settingsWindow.Open);
             _buttonsPanel.Open();
             _infoPanel.Open();

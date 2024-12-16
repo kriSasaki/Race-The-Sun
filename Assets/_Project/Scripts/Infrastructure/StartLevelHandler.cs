@@ -53,10 +53,11 @@ namespace Project.Infrastructure
             _player.DisableMove();
             DisableUi();
 
-            await _cameraSystem.ShowOpeningAsync(destroyCancellationToken);
 
             if (SceneManager.GetActiveScene().name != _gameConfig.FirstLevelScene)
             {
+                await _cameraSystem.ShowOpeningAsync(destroyCancellationToken);
+                _cameraSystem.GoToPlayer();
                 _player.EnableMove();
             }
 
