@@ -47,5 +47,6 @@ MonoBehaviour:
   _resourcesSheet: {fileID: 11400000, guid: 47d9f19837897604b87e5bb6a9e44cf6, type: 2}
   _shopItemsCongigs: {fileID: 11400000, guid: 828a0d9c54573d34e86e43c7f62e03ad, type: 2}
   _statsSheet: {fileID: 11400000, guid: cf21a7d5f90f37649bb85120cfe856c3, type: 2}
+  _shipConfigSheet: {fileID: 11400000, guid: 4bc5b7d6b8178c34a8c7c73498191a7a, type: 2}
   _uiConfigs: {fileID: 11400000, guid: 807bd005ff010e647973b87bb3055e56, type: 2}
   _gameConfig: {fileID: 11400000, guid: 8d97910b28f4be448b0319ab0ab3f8db, type: 2}

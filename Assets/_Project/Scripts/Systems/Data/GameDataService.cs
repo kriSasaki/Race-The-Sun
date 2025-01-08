@@ -2,7 +2,10 @@
 using System.Linq;
 using DTT.Utils.Extensions;
 using Project.Configs.Game;
+using Project.Configs.Ships;
+using Project.Configs.Stats;
 using Project.Interfaces.Data;
+using Project.Systems.Stats;
 using UnityEngine;
 using YG;
 
@@ -18,17 +21,26 @@ namespace Project.Systems.Data
         private const string SaveKey = nameof(SaveKey);
 
         private readonly GameData _gameData;
+        private readonly ShipConfigSheet _shipConfigSheet;
+        private readonly PlayerStatsProvider _statsProvider;
 
-        public GameDataService(GameConfig config)
+        public GameDataService(GameConfig config, ShipConfigSheet shipConfigSheet, StatsSheet statsSheet)
         {
             GameData data = YandexGame.savesData.GameData;
-            
-            _gameData = data ?? new GameData(config.FirstLevelScene);
+
+            _shipConfigSheet = shipConfigSheet;
+            string defaultShipID = shipConfigSheet.Ships.First().ID;
+
+            _gameData = data ?? new GameData(config.FirstLevelScene, defaultShipID);
 
             if (_gameData.CurrentScene.IsNullOrEmpty())
             {
                 _gameData.CurrentScene = config.FirstLevelScene;
             }
+            
+            _statsProvider = new PlayerStatsProvider(this, statsSheet);
+            
+            LoadShipStats();
         }
 
         public List<GameResourceData> Storage => _gameData.StorageData;
@@ -38,6 +50,18 @@ namespace Project.Systems.Data
         public string CurrentLevel => _gameData.CurrentScene;
 
         public bool IsAdHided { get => _gameData.IsAddHided; set => _gameData.IsAddHided = value; }
+
+        public ShipConfig GetSelectedShip()
+        {
+            return _shipConfigSheet.GetShipConfigById(_gameData.SelectedShipID);
+        }
+
+        public void UpdateSelectedShip(string shipID)
+        {
+            _gameData.SelectedShipID = shipID;
+            LoadShipStats();
+            Save();
+        }
 
         public void UpdateCurrentLevel(string levelName)
         {
@@ -61,6 +85,9 @@ namespace Project.Systems.Data
 
         public void Save()
         {
+            string selectedShip = _gameData.SelectedShipID;
+            _gameData.ShipStatsLevels[selectedShip] = _statsProvider.SaveStats();
+            
             YandexGame.savesData.GameData = _gameData;
 
             YandexGame.SaveProgress();
@@ -75,6 +102,19 @@ namespace Project.Systems.Data
         {
             _gameData.Score = score;
             Save();
+        }
+
+        private void LoadShipStats()
+        {
+            string shipID = _gameData.SelectedShipID;
+
+            if (!_gameData.ShipStatsLevels.ContainsKey(shipID))
+            {
+                _gameData.ShipStatsLevels[shipID] = new List<PlayerStatData>(); // Новый корабль
+            }
+
+            // Передаем статы текущего корабля в провайдер
+            _statsProvider.LoadStats(_gameData.ShipStatsLevels[shipID]);
         }
     }
 }

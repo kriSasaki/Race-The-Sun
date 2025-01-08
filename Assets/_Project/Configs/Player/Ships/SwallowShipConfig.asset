@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab84a7788f69df14280e114fb941e32d, type: 3}
+  m_Name: SwallowShipConfig
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: Swallow
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 05c66d8b6b8b76b439819bbc8a513cc1, type: 3}
+  <Name>k__BackingField: Swallow
+  <Cost>k__BackingField: 0
+  <PlayerView>k__BackingField: {fileID: 6946760620478524230, guid: 5ff87fa734ec1b543872ebb0e034b10d, type: 3}
+  <StatsConfig>k__BackingField: {fileID: 11400000, guid: cf21a7d5f90f37649bb85120cfe856c3, type: 2}
+  <IsPurchased>k__BackingField: 1

@@ -21,11 +21,9 @@ namespace Project.UI.Upgrades
         
         [SerializeField] private TMP_Text _statName;
         [SerializeField] private TMP_Text _statDescription;
-        [SerializeField] private GameObject _levelProgressTemlplate;
+        [SerializeField] private GameObject _levelProgressTemplate;
         [SerializeField] private Image _levelProgressPrefab;
-
         [SerializeField] private Button _upgradeButton;
-
         [SerializeField] private UpgradeCostView _upgradeCostViewPrefab;
         [SerializeField] private RectTransform _upgradePriceHolder;
 
@@ -84,7 +82,7 @@ namespace Project.UI.Upgrades
         {
             for (int i = 0; i < _config.MaxLevel; i++)
             {
-                var progress = Instantiate(_levelProgressPrefab, _levelProgressTemlplate.transform);
+                var progress = Instantiate(_levelProgressPrefab, _levelProgressTemplate.transform);
 
                 if (i >= currentLevel)
                 {

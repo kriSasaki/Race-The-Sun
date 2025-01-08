@@ -1,4 +1,5 @@
-﻿using Ami.BroAudio;
+﻿using System.Collections.Generic;
+using Ami.BroAudio;
 using Project.Configs.Level;
 using Project.General.View;
 using Project.Interfaces.Audio;
@@ -12,6 +13,9 @@ namespace Project.Players.View
     public class PlayerView : ShipView
     {
         [SerializeField] private SoundID _hitSound;
+        [SerializeField] private List<Trail> _trails;
+        [SerializeField] private Material _glowMaterial;
+        [SerializeField] private SpriteRenderer _meterGlow;
 
         private IAudioService _audioService;
         private VfxSpawner _vfxSpawner;

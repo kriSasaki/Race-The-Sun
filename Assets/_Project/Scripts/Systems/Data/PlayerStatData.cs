@@ -1,5 +1,4 @@
-﻿using Project.Systems.Data;
-using Project.Systems.Stats;
+﻿using Project.Systems.Stats;
 
 namespace Project.Systems.Data
 {

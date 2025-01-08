@@ -40,6 +40,38 @@ namespace Project.Systems.Data
             return _stats;
         }
 
+        public List<PlayerStatData> SaveStats()
+        {
+            List<PlayerStatData> statData = new();
+
+            foreach (var stat in _stats)
+            {
+                statData.Add(new PlayerStatData
+                {
+                    StatType = stat.Key,
+                    Level = stat.Value.Level
+                });
+            }
+
+            return statData;
+        }
+ 
+        public void LoadStats(List<PlayerStatData> statData)
+        {
+            _stats = new Dictionary<StatType, PlayerStat>();
+
+            foreach (var data in statData)
+            {
+                StatConfig config = _statsSheet.GetStatConfig(data.StatType);
+                _stats[data.StatType] = new PlayerStat(config, data.Level);
+            }
+        }
+
+        public Dictionary<StatType, PlayerStat> GetStats()
+        {
+            return _stats;
+        }
+
         public void UpdateStats()
         {
             foreach (StatType statType in _stats.Keys)

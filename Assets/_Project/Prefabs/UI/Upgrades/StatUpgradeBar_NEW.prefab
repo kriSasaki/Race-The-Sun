@@ -643,7 +643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statName: {fileID: 8520804349659528415}
   _statDescription: {fileID: 7714576522569474768}
-  _levelProgressTemlplate: {fileID: 2538616856195825313}
+  _levelProgressTemplate: {fileID: 2538616856195825313}
   _levelProgressPrefab: {fileID: 3216843212614356384, guid: 5c16f79d818ade047954f538849fb87f, type: 3}
   _upgradeButton: {fileID: 4917827226227758817}
   _upgradeCostViewPrefab: {fileID: 2771918717030362588, guid: 6198108ad5022c94bad588869a3753c5, type: 3}
